@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontier Red Team Orchestration Arena</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+      }
+      body {
+        margin: 0;
+        background: #0e1117;
+        color: #e6edf3;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+        padding: 16px;
+      }
+      .card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 10px;
+        padding: 14px;
+      }
+      h1,
+      h2 {
+        margin-top: 0;
+      }
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(170px, 1fr));
+        gap: 10px;
+      }
+      .metric {
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 8px;
+      }
+      .bar-shell {
+        height: 10px;
+        background: #21262d;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .bar {
+        height: 100%;
+        background: linear-gradient(90deg, #58a6ff, #2f81f7);
+        width: 0;
+      }
+      #threat-bar {
+        background: linear-gradient(90deg, #f85149, #ff7b72);
+      }
+      #containment-bar {
+        background: linear-gradient(90deg, #3fb950, #238636);
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      button,
+      select,
+      input {
+        background: #21262d;
+        color: #e6edf3;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      ul {
+        padding-left: 18px;
+        max-height: 430px;
+        overflow: auto;
+      }
+      .running {
+        color: #58a6ff;
+      }
+      .red {
+        color: #ff7b72;
+      }
+      .blue {
+        color: #3fb950;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <section class="card">
+        <h1>Frontier Red Team Orchestration Arena</h1>
+        <p>
+          Red-team and defensive AI agents act every tick while the analyst can inject interventions and monitor telemetry in real time.
+        </p>
+
+        <div class="controls">
+          <button id="start">Start</button>
+          <button id="pause">Pause</button>
+          <button id="step">Single Step</button>
+          <button id="reset">Reset</button>
+          <label>
+            Analyst Action
+            <select id="analystAction">
+              <option value="observe">Observe</option>
+              <option value="threat_hunt">Threat Hunt</option>
+              <option value="force_patch">Force Patch</option>
+              <option value="deploy_honeypot">Deploy Honeypot</option>
+            </select>
+          </label>
+          <label>
+            Tick speed
+            <input id="speed" type="range" min="250" max="1500" step="50" value="700" />
+            <span id="speedValue"></span>
+          </label>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <strong>Tick</strong>: <span id="tick">0</span>
+          </div>
+          <div class="metric">
+            <strong>Status</strong>: <span id="status" class="running">Battle Running</span>
+          </div>
+          <div class="metric">
+            <strong>System Integrity</strong>: <span id="integrity">100</span>
+            <div class="bar-shell"><div id="integrity-bar" class="bar"></div></div>
+          </div>
+          <div class="metric">
+            <strong>Confidentiality</strong>: <span id="confidentiality">100</span>
+            <div class="bar-shell"><div id="confidentiality-bar" class="bar"></div></div>
+          </div>
+          <div class="metric">
+            <strong>Availability</strong>: <span id="availability">100</span>
+            <div class="bar-shell"><div id="availability-bar" class="bar"></div></div>
+          </div>
+          <div class="metric">
+            <strong>Threat Level</strong>: <span id="threat">20</span>
+            <div class="bar-shell"><div id="threat-bar" class="bar"></div></div>
+          </div>
+          <div class="metric">
+            <strong>Containment</strong>: <span id="containment">0</span>
+            <div class="bar-shell"><div id="containment-bar" class="bar"></div></div>
+          </div>
+          <div class="metric"><strong>Momentum Score (Red-Blue)</strong>: <span id="score">0</span></div>
+        </div>
+
+        <p><strong>Latest actions:</strong> <span id="actions">Awaiting first turn</span></p>
+      </section>
+
+      <section class="card">
+        <h2>Live Battle Log</h2>
+        <ul id="event-log"></ul>
+      </section>
+    </div>
+
+    <script src="./simulator.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

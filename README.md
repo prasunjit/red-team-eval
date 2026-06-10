@@ -1,1 +1,1 @@
-# red-team-eval
+The Frontier Red Team evaluates whether models can autonomously execute cyberattacks. Build an interactive orchestration arena where a red-team AI agent attacks an environment, a defensive AI agent protects it, and the human analyst can watch the battle in real time.

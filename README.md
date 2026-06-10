@@ -8,7 +8,7 @@ Interactive orchestration arena for autonomous cyber conflict simulation:
 ## Run locally
 
 ```bash
-cd /home/runner/work/red-team-eval/red-team-eval/prasunjit/red-team-eval
+cd /path/to/red-team-eval
 python3 -m http.server 8000
 ```
 
@@ -17,6 +17,6 @@ Then open: `http://localhost:8000/arena/`
 ## Run focused tests
 
 ```bash
-cd /home/runner/work/red-team-eval/red-team-eval/prasunjit/red-team-eval
+cd /path/to/red-team-eval
 node --test arena/simulator.test.js
 ```

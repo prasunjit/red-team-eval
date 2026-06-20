@@ -1,0 +1,10 @@
+# Go
+backend/pb/
+bin/
+
+# Python
+engine/venv/
+engine/pb/
+__pycache__/
+*.pyc
+.env

@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package arena;
+
+option go_package = "arena/backend/pb";
+import "google/protobuf/timestamp.proto";
+
+service ArenaService {
+    // CreateAttack request
+    rpc CreateAttack(CreateAttackRequest) returns (CreateAttackResponse);
+    rpc DefendAttack(DefendAttackRequest) returns (DefendAttackResponse);
+}
+
+message CreateAttackRequest {
+    string attack_id = 1;
+    string attack_intent = 2;
+}
+
+message CreateAttackResponse {
+    string attack_id = 1;
+    AttackCommandGenerator attack_command_generator = 2;
+}
+
+message AttackCommandGenerator {
+    string command = 1;
+    string description = 2;
+    AttackType attack_type = 3;
+}
+
+enum  AttackType {
+        UNKNOWN = 0;
+        SQL_INJECTION = 1;
+        CROSS_SITE_SCRIPTING = 2;
+        DENIAL_OF_SERVICE = 3;
+        PHISHING = 4;
+        MALWARE = 5;
+        SECURITY_MISCONFIGURATION = 6;
+        INSIDER_THREAT = 7;
+    }
+
+message DefendAttackRequest {
+    string attack_id = 1;
+    string command = 2;
+    repeated AttackLog attack_logs = 3;
+}
+
+message DefendAttackResponse {
+    string attack_id = 1;
+    bool success = 2;
+    DefenseAction defense_action = 3;
+    TargetSystem target_system = 4;
+    string attack_mitigation_details = 5;
+    ConfidenceLevel confidence_level = 6;
+}
+
+enum  DefenseAction {
+    NONE = 0;
+    BLOCK_IP = 1;
+    ALERT_ADMIN = 2;
+    LOG_EVENT = 3;
+    LIMIT_RATE = 4;
+    KILL_CONNECTION = 5;
+    KILL_PROCESS = 6;
+    BLOCK_USER = 7;
+    BLOCK_URL = 8;
+    BLOCK_PAYLOAD = 9;
+    BLOCK_PORT = 10;
+    BLOCK_PROTOCOL = 11;
+    DELETE_FILE = 12;
+    QUARANTINE_FILE = 13;
+    DISABLE_ACCOUNT = 14;
+    DISABLE_SERVICE = 15;
+}
+
+message TargetSystem {
+    string system_id = 1;
+    string system_type = 2;
+    string ip_address = 3;
+    string hostname = 4;
+}
+
+message AttackLog {
+    google.protobuf.Timestamp timestamp = 1;
+    string source_ip = 2;
+    string destination_ip = 3;
+    string protocol = 4;
+    int32 source_port = 5;
+    int32 destination_port = 6;
+    string payload = 7;
+    string user_name = 8;
+    string process_name = 9;
+    int32 process_id = 10;
+    string sha256_hash = 11;
+    string md5_hash = 12;
+    string target_system_id = 13;
+}
+
+message ConfidenceLevel {
+    float confidence_score = 1;
+    string confidence_description = 2;
+}
